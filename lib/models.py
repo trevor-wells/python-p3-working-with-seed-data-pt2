@@ -1,10 +1,14 @@
-from sqlalchemy import func
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import ForeignKey, Column, Integer, String, MetaData
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
-Base = declarative_base()
+convention = {
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+}
+metadata = MetaData(naming_convention=convention)
+
+Base = declarative_base(metadata=metadata)
 
 class Game(Base):
     __tablename__ = 'games'
